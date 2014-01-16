@@ -1,6 +1,7 @@
 #!user/bin/env Python
 
 from gi.repository import Gtk
+import random
 
 class AppWindow(Gtk.Window):
 	def __init__(self):
@@ -39,23 +40,25 @@ class AppWindow(Gtk.Window):
 
 		#Buttons
 		self.AddNameButton = Gtk.Button("Add Name")
+		self.AddNameButton.connect("clicked",self.AddNameButtonClicked)
 		self.RandomButton = Gtk.Button("Select By Random")
+		self.RandomButton.connect("clicked",self.RandomButtonClicked)
 		self.DeleteButton = Gtk.Button("Delete Name")
 
 		#Combobox
-		self.Names =["test","testsdtsdf","dsfsdf"]
-		NameStore = Gtk.ListStore(str)
-		self.Names.append("asdasd")
+		self.Names =[]
+		self.NameStore = Gtk.ListStore(str)
 
-		self.NameCombo = Gtk.ComboBox.new_with_model(NameStore)
+
+		self.NameCombo = Gtk.ComboBox.new_with_model(self.NameStore)
 		self.NameCombo.set_entry_text_column(1)
 
 		for Name in self.Names:
-			NameStore.append([Name])
+			self.NameStore.append([Name])
 
-		RendererText = Gtk.CellRendererText()
-		self.NameCombo.pack_start(RendererText,True)
-		self.NameCombo.add_attribute(RendererText,"text",0)
+		self.RendererText = Gtk.CellRendererText()
+		self.NameCombo.pack_start(self.RendererText,True)
+		self.NameCombo.add_attribute(self.RendererText,"text",0)
 
 
 		#Add H Boxes
@@ -81,6 +84,20 @@ class AppWindow(Gtk.Window):
 		DeleteNameVBox.pack_start(self.NameCombo,True,True,0)
 		DeleteNameVBox.pack_start(self.DeleteButton,True,True,0)
 		
+
+	def AddNameButtonClicked(self,button):
+		if self.NameEntry.get_text() != "":
+			self.Names.append(self.NameEntry.get_text())
+			print self.NameEntry.get_text()
+			print self.Names
+			self.NameEntry.set_text("")
+
+
+	def RandomButtonClicked(self,button):
+		if len(self.Names) == 0:
+			self.RandomLabel.set_text("Go Back And Add Names")
+		else:
+			self.RandomLabel.set_text(self.Names[random.randrange(len(self.Names))])
 
 		
 		
