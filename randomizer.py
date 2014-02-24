@@ -1,10 +1,13 @@
 #!user/bin/env Python
 
 from gi.repository import Gtk
-import random
+import random,time
 
 class AppWindow(Gtk.Window):
 	def __init__(self):
+
+		self.CreateLog()
+		self.Counter=1
 		#Window
 		Gtk.Window.__init__(self,title = "Randomizer")
 		self.set_border_width(10)
@@ -83,7 +86,19 @@ class AppWindow(Gtk.Window):
 
 		DeleteNameVBox.pack_start(self.NameCombo,True,True,0)
 		DeleteNameVBox.pack_start(self.DeleteButton,True,True,0)
+
+	def CreateLog(self):
+		Log = open('log.txt','a')
+		Log.write('------------------------------------------------------\n')
+		Log.write('This log created on: '+time.strftime("%a %d %b %Y %H:%M:%S", time.localtime()))
+		Log.write('\n------------------------------------------------------\n')
+		Log.close()
+
 		
+	def UpdateLog(self,name):
+		Log = open('log.txt','a')
+		Log.write(time.strftime("%H:%M:%S",time.localtime())+' ---- '+str(self.Counter)+'.'+str(name)+'\n')
+		Log.close()
 
 	def AddNameButtonClicked(self,button):
 		if self.NameEntry.get_text() != "":
@@ -93,12 +108,14 @@ class AppWindow(Gtk.Window):
 
 
 
+
 	def RandomButtonClicked(self,button):
 		if len(self.Names) == 0:
 			self.RandomLabel.set_text("Go Back And Add Names")
 		else:
 			self.RandomLabel.set_text(self.Names[random.randrange(len(self.Names))])
-
+			self.UpdateLog(self.RandomLabel.get_text())
+			self.Counter+=1
 		
 		
 
