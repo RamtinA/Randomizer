@@ -51,7 +51,7 @@ class AppWindow(Gtk.Window):
 
 
 		self.NameCombo = Gtk.ComboBox.new_with_model(self.NameStore)
-		self.NameCombo.set_entry_text_column(1)
+		self.NameCombo.set_entry_text_column(0)
 
 		for Name in self.Names:
 			self.NameStore.append([Name])
@@ -88,9 +88,9 @@ class AppWindow(Gtk.Window):
 	def AddNameButtonClicked(self,button):
 		if self.NameEntry.get_text() != "":
 			self.Names.append(self.NameEntry.get_text())
-			print self.NameEntry.get_text()
-			print self.Names
+			self.NameStore.append([self.NameEntry.get_text()])
 			self.NameEntry.set_text("")
+
 
 
 	def RandomButtonClicked(self,button):
