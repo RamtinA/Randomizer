@@ -97,7 +97,7 @@ class AppWindow(Gtk.Window):
 		
 	def UpdateLog(self,name):
 		Log = open('log.txt','a')
-		Log.write(time.strftime("%H:%M:%S",time.localtime())+' ---- '+str(self.Counter)+'.'+str(name)+'\n')
+		Log.write(time.strftime("%H:%M:%S",time.localtime())+' -----> '+str(self.Counter)+'.'+str(name)+'\n')
 		Log.close()
 
 	def AddNameButtonClicked(self,button):
